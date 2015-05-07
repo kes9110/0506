@@ -79,4 +79,23 @@ public class UserDAO {
 			return list;
 		}
 	}
+	public UserVO getUserVO(String id){
+		UserVO user = null;
+		try{
+			conn = DBUtil.getConnection();
+			String sql = "select * from users where id = ?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, id);
+			rset = pstm.executeQuery();
+			while(rset.next()){
+				 user = new UserVO(rset.getString(1),rset.getString(2),rset.getString(3),rset.getString(4));		
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			DBUtil.close(conn,pstm,rset);
+			System.out.println(user);
+			return user;
+		}
+	}
 }
